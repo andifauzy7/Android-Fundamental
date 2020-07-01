@@ -1,5 +1,19 @@
 <resources>
     <string name="app_name">SubmissionSatu</string>
+    <string name="sampleName">Andi Fauzy Dewantara</string>
+    <string name="sampleUsername">andifauzy7</string>
+    <string name="sampleLocation">Bandung, Indonesia</string>
+    <string name="fillUsername">Username :</string>
+    <string name="fillName">Name :</string>
+    <string name="fillCompany">Company :</string>
+    <string name="sampleCompany">POLITEKNIK NEGERI BANDUNG</string>
+    <string name="fillLocation">Location :</string>
+    <string name="fillRepository">Repository</string>
+    <string name="fillFollowers">Followers</string>
+    <string name="fillFollowing">Following</string>
+    <string name="sampleRepository">200</string>
+    <string name="sampleFollowers">250</string>
+    <string name="sampleFollowing">20025</string>
     <!-- Other string resources-->
 
     <string-array name="username">

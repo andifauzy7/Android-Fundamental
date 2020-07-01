@@ -1,10 +1,10 @@
 package com.example.submissionsatu
 
+import android.content.Intent
 import android.content.res.TypedArray
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.AdapterView
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -29,9 +29,11 @@ class MainActivity : AppCompatActivity() {
         prepare()
         addItem()
 
-        list_user.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            Toast.makeText(this@MainActivity, users[position].name, Toast.LENGTH_SHORT).show()
-        }
+        list_user.onItemClickListener = AdapterView.OnItemClickListener({ _, _, position, _ ->
+            val intent = Intent(this, detail_user::class.java)
+            intent.putExtra(detail_user.DETAIL_PERSON, users[position])
+            startActivity(intent)
+        })
     }
     private fun prepare() {
         dataName = resources.getStringArray(R.array.name)
