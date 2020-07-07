@@ -29,11 +29,11 @@ class MainActivity : AppCompatActivity() {
         prepare()
         addItem()
 
-        list_user.onItemClickListener = AdapterView.OnItemClickListener({ _, _, position, _ ->
-            val intent = Intent(this, detail_user::class.java)
-            intent.putExtra(detail_user.DETAIL_PERSON, users[position])
+        list_user.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+            val intent = Intent(this, DetailUser::class.java)
+            intent.putExtra(DetailUser.DETAIL_PERSON, users[position])
             startActivity(intent)
-        })
+        }
     }
     private fun prepare() {
         dataName = resources.getStringArray(R.array.name)
