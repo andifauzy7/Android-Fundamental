@@ -1,4 +1,4 @@
-package com.example.submissionsatu
+package com.example.submissionsatu.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

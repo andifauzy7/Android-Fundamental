@@ -5,6 +5,8 @@ import android.content.res.TypedArray
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.AdapterView
+import com.example.submissionsatu.adapter.UserAdapter
+import com.example.submissionsatu.model.User
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -30,8 +32,8 @@ class MainActivity : AppCompatActivity() {
         addItem()
 
         list_user.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            val intent = Intent(this, DetailUser::class.java)
-            intent.putExtra(DetailUser.DETAIL_PERSON, users[position])
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra(DetailActivity.DETAIL_PERSON, users[position])
             startActivity(intent)
         }
     }

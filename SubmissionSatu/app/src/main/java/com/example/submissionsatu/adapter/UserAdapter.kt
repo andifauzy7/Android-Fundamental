@@ -1,4 +1,4 @@
-package com.example.submissionsatu
+package com.example.submissionsatu.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.submissionsatu.R
+import com.example.submissionsatu.model.User
 
 class UserAdapter internal constructor(private val context: Context) : BaseAdapter() {
     internal var users = arrayListOf<User>()
