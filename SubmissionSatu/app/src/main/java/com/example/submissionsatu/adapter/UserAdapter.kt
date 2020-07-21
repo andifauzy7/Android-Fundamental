@@ -1,44 +1,48 @@
 package com.example.submissionsatu.adapter
 
-import android.content.Context
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.submissionsatu.R
 import com.example.submissionsatu.model.User
+import kotlinx.android.synthetic.main.item_user.view.*
 
-class UserAdapter internal constructor(private val context: Context) : BaseAdapter() {
-    internal var users = arrayListOf<User>()
-    override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View? {
-        var itemView = p1
-        if(itemView == null){
-            itemView = LayoutInflater.from(context).inflate(R.layout.item_user, p2, false)
-        }
-        val viewHolder = ViewHolder(itemView as View)
-        val user = getItem(p0) as User
-        viewHolder.bind(user)
-        return itemView
-    }
 
-    override fun getItem(p0: Int): Any = users[p0]
-
-    override fun getItemId(p0: Int): Long = p0.toLong()
-
-    override fun getCount(): Int = users.size
-
-    private inner class ViewHolder internal constructor(view: View) {
-        private val name: TextView = view.findViewById(R.id.nameUser)
-        private val username: TextView = view.findViewById(R.id.usernameUser)
-        private val location: TextView = view.findViewById(R.id.locationUser)
-        private val imgPhoto: ImageView = view.findViewById(R.id.img_photo)
-        internal fun bind(user: User) {
-            name.text = user.name
-            username.text = user.username
-            location.text = user.location
-            imgPhoto.setImageResource(user.avatar)
+class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+    private val mData = ArrayList<User>()
+    inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(user: User) {
+            with(itemView){
+                usernameUser.text = user.username
+                nameUser.text = user.name
+                locationUser.text = user.location
+                Glide.with(itemView.context)
+                    .load(user.avatar)
+                    .apply(RequestOptions().override(75, 75))
+                    .into(img_photo)
+            }
         }
     }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
+        val mView = LayoutInflater.from(parent.context).inflate(R.layout.item_user, parent, false)
+        return UserViewHolder(mView)
+    }
+
+    override fun getItemCount() = mData.size
+
+    override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
+        holder.bind(mData[position])
+    }
+
+    fun setData(items: ArrayList<User>) {
+        mData.clear()
+        mData.addAll(items)
+        notifyDataSetChanged()
+    }
+
 }

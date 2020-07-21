@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.res.TypedArray
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.submissionsatu.R
 import com.example.submissionsatu.model.User
@@ -11,7 +12,7 @@ import com.example.submissionsatu.model.User
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val listUsers = MutableLiveData<ArrayList<User>>()
 
-    fun getUsers() = listUsers
+    fun getUsers(): LiveData<ArrayList<User>> = listUsers
 
     @SuppressLint("Recycle")
     fun setUsers(){

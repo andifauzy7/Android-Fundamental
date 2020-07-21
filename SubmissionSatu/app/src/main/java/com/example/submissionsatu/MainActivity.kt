@@ -1,62 +1,35 @@
 package com.example.submissionsatu
 
-import android.content.Intent
-import android.content.res.TypedArray
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.AdapterView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.submissionsatu.adapter.UserAdapter
-import com.example.submissionsatu.model.User
+import com.example.submissionsatu.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var adapter: UserAdapter
-    private lateinit var dataUsername: Array<String>
-    private lateinit var dataName: Array<String>
-    private lateinit var dataLocation: Array<String>
-    private lateinit var dataCompany: Array<String>
-    private lateinit var dataRepository: Array<String>
-    private lateinit var dataFollowing: Array<String>
-    private lateinit var dataFollowers: Array<String>
-    private lateinit var dataPhoto: TypedArray
-    private var users = arrayListOf<User>()
+    private lateinit var mainViewModel: MainViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         title = "Github User's"
 
-        adapter = UserAdapter(this)
+        adapter = UserAdapter()
+        adapter.notifyDataSetChanged()
+        list_user.layoutManager = LinearLayoutManager(this)
         list_user.adapter = adapter
 
-        prepare()
-        addItem()
+        mainViewModel = ViewModelProvider(this,
+            ViewModelProvider.AndroidViewModelFactory.getInstance(this.application)).get(MainViewModel::class.java)
 
-        list_user.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            val intent = Intent(this, DetailActivity::class.java)
-            intent.putExtra(DetailActivity.DETAIL_PERSON, users[position])
-            startActivity(intent)
-        }
-    }
-    private fun prepare() {
-        dataName = resources.getStringArray(R.array.name)
-        dataUsername = resources.getStringArray(R.array.username)
-        dataLocation = resources.getStringArray(R.array.location)
-        dataPhoto = resources.obtainTypedArray(R.array.avatar)
-        dataCompany = resources.getStringArray(R.array.company)
-        dataRepository = resources.getStringArray(R.array.repository)
-        dataFollowers = resources.getStringArray(R.array.followers)
-        dataFollowing = resources.getStringArray(R.array.following)
-    }
-    private fun addItem() {
-        for (position in dataName.indices) {
-            val user = User(
-                dataUsername[position], dataName[position],
-                dataPhoto.getResourceId(position, -1), dataCompany[position],
-                dataLocation[position], dataRepository[position].toInt(),
-                dataFollowers[position].toInt(), dataFollowing[position].toInt()
-            )
-            users.add(user)
-        }
-        adapter.users = users
+        mainViewModel.setUsers()
+        mainViewModel.getUsers().observe(this, Observer { user ->
+            if(user!=null){
+                adapter.setData(user)
+            }
+        })
     }
 }
