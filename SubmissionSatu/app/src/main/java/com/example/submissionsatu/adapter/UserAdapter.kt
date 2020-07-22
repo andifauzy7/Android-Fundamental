@@ -1,12 +1,15 @@
 package com.example.submissionsatu.adapter
 
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.submissionsatu.DetailActivity
 import com.example.submissionsatu.R
 import com.example.submissionsatu.model.User
 import kotlinx.android.synthetic.main.item_user.view.*
@@ -24,6 +27,12 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
                     .load(user.avatar)
                     .apply(RequestOptions().override(75, 75))
                     .into(img_photo)
+            }
+            itemView.setOnClickListener {
+                Toast.makeText(itemView.context, "Kamu Memilih ${user.name}", Toast.LENGTH_LONG).show()
+                val moveToDetail = Intent(itemView.context, DetailActivity::class.java)
+                moveToDetail.putExtra(DetailActivity.DETAIL_PERSON, user)
+                itemView.context.startActivity(moveToDetail)
             }
         }
     }

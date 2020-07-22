@@ -31,7 +31,6 @@ class DetailActivity : AppCompatActivity() {
         actionbar!!.title = "Detail User"
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
-        actionbar.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onSupportNavigateUp(): Boolean {
