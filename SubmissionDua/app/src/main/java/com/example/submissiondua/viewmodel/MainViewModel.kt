@@ -15,19 +15,18 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getUsers(): LiveData<ArrayList<User>> = listUsers
 
-    fun setUsers(){
+    fun setUsers(username: String){
         getApplication<Application>()
         val listUser = ArrayList<User>()
         val client = AsyncHttpClient()
         client.addHeader("Authorization", "f7b6febb3427dcf755657ce73168abf06e44032c")
         client.addHeader("User-Agent", "request")
-        val url = "https://api.github.com/search/users?q=andi"
+        val url = "https://api.github.com/search/users?q=${username}"
         client.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(statusCode: Int, headers: Array<Header>, responseBody: ByteArray) {
                 val result = String(responseBody)
                 try {
                     val responseObject = JSONObject(result)
-                    val value = responseObject.getInt("total_count")
                     val arrayResult = responseObject.getJSONArray("items")
                     for (i in 0 until arrayResult.length()){
                         val resultUser =arrayResult.getJSONObject(i)

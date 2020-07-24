@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
@@ -22,7 +21,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         adapter = UserAdapter()
         adapter.notifyDataSetChanged()
         list_user.layoutManager = LinearLayoutManager(this)
@@ -31,10 +29,6 @@ class MainActivity : AppCompatActivity() {
         mainViewModel = ViewModelProvider(this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(this.application)).get(
             MainViewModel::class.java)
-
-        loading_bar.visibility = View.VISIBLE
-        mainViewModel.setUsers()
-        loading_bar.visibility = View.INVISIBLE
 
         mainViewModel.getUsers().observe(this, Observer {user ->
             if(user!=null){
@@ -59,6 +53,7 @@ class MainActivity : AppCompatActivity() {
              */
             override fun onQueryTextSubmit(query: String): Boolean {
                 Toast.makeText(this@MainActivity, query, Toast.LENGTH_SHORT).show()
+                mainViewModel.setUsers(query)
                 return true
             }
 
