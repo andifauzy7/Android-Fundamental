@@ -7,9 +7,10 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.submissiondua.fragments.FollowersFragment
 import com.example.submissiondua.fragments.FollowingFragment
+import com.example.submissiondua.fragments.RepoFragment
 
 class SectionsPagerAdapter(private val mContext: Context, fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-    private val TAB_TITLES = intArrayOf(R.string.followers, R.string.following)
+    private val TAB_TITLES = intArrayOf(R.string.followers, R.string.following, R.string.repository)
     override fun getItem(position: Int): Fragment {
         var fragment: Fragment? = null
         when (position) {
@@ -17,6 +18,8 @@ class SectionsPagerAdapter(private val mContext: Context, fm: FragmentManager) :
                 FollowersFragment()
             1 -> fragment =
                 FollowingFragment()
+            2 -> fragment =
+                RepoFragment()
         }
         return fragment as Fragment
     }
@@ -27,7 +30,7 @@ class SectionsPagerAdapter(private val mContext: Context, fm: FragmentManager) :
     }
 
     override fun getCount(): Int {
-        return 2
+        return 3
     }
 
 }

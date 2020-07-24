@@ -14,4 +14,16 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="followers">Followers</string>
     <string name="following">Following</string>
+    <string name="count_repo">26</string>
+    <string name="count_followers">120</string>
+    <string name="count_following">64</string>
+    <string name="repository">Repository</string>
+    <string name="capt_name">Name</string>
+    <string name="capt_company">Company</string>
+    <string name="capt_location">Location</string>
+    <string name="capt_bio">Bio</string>
+    <string name="name">Andi Fauzy Dewantara</string>
+    <string name="company">POLITEKNIK NEGERI BANDUNG</string>
+    <string name="location">Bandung, Jawa Barat, Indonesia</string>
+    <string name="bio">Software Engineer</string>
 </resources>
