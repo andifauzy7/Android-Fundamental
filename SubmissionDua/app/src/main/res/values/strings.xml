@@ -10,4 +10,8 @@
     <string name="espanol">Español</string>
     <string name="username">Andifauzy7</string>
     <string name="username_capt">Username :</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
 </resources>
