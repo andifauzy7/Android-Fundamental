@@ -9,27 +9,38 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.submissiondua.adapter.UserAdapter
-import com.example.submissiondua.model.User
-import com.loopj.android.http.AsyncHttpClient
-import com.loopj.android.http.AsyncHttpResponseHandler
-import cz.msebera.android.httpclient.Header
+import com.example.submissiondua.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
     private lateinit var adapter: UserAdapter
-    private val listUsers = ArrayList<User>()
+    private lateinit var mainViewModel: MainViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        getUsers()
 
         adapter = UserAdapter()
         adapter.notifyDataSetChanged()
         list_user.layoutManager = LinearLayoutManager(this)
         list_user.adapter = adapter
+
+        mainViewModel = ViewModelProvider(this,
+            ViewModelProvider.AndroidViewModelFactory.getInstance(this.application)).get(
+            MainViewModel::class.java)
+
+        loading_bar.visibility = View.VISIBLE
+        mainViewModel.setUsers()
+        loading_bar.visibility = View.INVISIBLE
+
+        mainViewModel.getUsers().observe(this, Observer {user ->
+            if(user!=null){
+                adapter.setData(user)
+            }
+        })
     }
 
 
@@ -74,38 +85,5 @@ class MainActivity : AppCompatActivity() {
             }
             else -> true
         }
-    }
-
-    private fun getUsers(){
-        loading_bar.visibility = View.VISIBLE
-        val client = AsyncHttpClient()
-        client.addHeader("Authorization", "f7b6febb3427dcf755657ce73168abf06e44032c")
-        client.addHeader("User-Agent", "request")
-        val url = "https://api.github.com/search/users?q=andi"
-        client.get(url, object : AsyncHttpResponseHandler() {
-            override fun onSuccess(statusCode: Int, headers: Array<Header>, responseBody: ByteArray) {
-                val result = String(responseBody)
-                try {
-                    val responseObject = JSONObject(result)
-                    val value = responseObject.getInt("total_count")
-                    val arrayResult = responseObject.getJSONArray("items")
-                    for (i in 0 until arrayResult.length()){
-                        val resultUser =arrayResult.getJSONObject(i)
-                        val user = User(resultUser.getString("login"),resultUser.getString("avatar_url"))
-                        listUsers.add(user)
-                    }
-                    loading_bar.visibility = View.INVISIBLE
-                    adapter.setData(listUsers)
-                    Toast.makeText(this@MainActivity, "${resources.getString(R.string.found)} : $value ${resources.getString(R.string.people)}.", Toast.LENGTH_SHORT).show()
-                } catch (e: Exception) {
-                    Toast.makeText(this@MainActivity, e.message, Toast.LENGTH_SHORT).show()
-                    e.printStackTrace()
-                }
-
-            }
-            override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray, error: Throwable) {
-                Toast.makeText(this@MainActivity, resources.getString(R.string.connection_problem), Toast.LENGTH_SHORT).show()
-            }
-        })
     }
 }
