@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.options_menu, menu)
@@ -47,19 +46,13 @@ class MainActivity : AppCompatActivity() {
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         searchView.queryHint = resources.getString(R.string.search)
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            /*
-            Gunakan method ini ketika search selesai atau OK
-             */
             override fun onQueryTextSubmit(query: String): Boolean {
                 Toast.makeText(this@MainActivity, query, Toast.LENGTH_SHORT).show()
                 mainViewModel.setUsers(query)
                 return true
             }
-
-            /*
-            Gunakan method ini untuk merespon tiap perubahan huruf pada searchView
-             */
             override fun onQueryTextChange(newText: String): Boolean {
                 return false
             }

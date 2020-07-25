@@ -27,6 +27,7 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
             itemView.setOnClickListener {
                 Toast.makeText(itemView.context, user.username, Toast.LENGTH_SHORT).show()
                 val moveToDetail = Intent(itemView.context, DetailActivity::class.java)
+                moveToDetail.putExtra(DetailActivity.ID_USER, user.username)
                 itemView.context.startActivity(moveToDetail)
             }
         }
