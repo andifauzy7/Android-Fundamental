@@ -45,7 +45,7 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
                     val repo = responseObject.getInt("public_repos")
                     val followers = responseObject.getInt("followers")
                     val following = responseObject.getInt("following")
-                    detailUser = DetailUser(username, avatar, name, company, location, bio, repo, followers, following, null, null, null)
+                    detailUser = DetailUser(username, avatar, name, company, location, bio, repo, followers, following)
                     user.postValue(detailUser)
                 } catch (e: Exception) {
                     e.printStackTrace()
