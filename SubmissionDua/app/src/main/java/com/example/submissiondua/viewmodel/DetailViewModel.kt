@@ -1,6 +1,7 @@
 package com.example.submissiondua.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -26,12 +27,22 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
                 val result = String(responseBody)
                 try {
                     val responseObject = JSONObject(result)
+                    val avatar = responseObject.getString("avatar_url")
+                    val name = responseObject.getString("name")
+                    val company = responseObject.getString("company")
+                    val location = responseObject.getString("location")
+                    val bio = responseObject.getString("bio")
+                    val repo = responseObject.getInt("public_repos")
+                    val followers = responseObject.getInt("followers")
+                    val following = responseObject.getInt("following")
+                    detailUser = DetailUser(username, avatar, name, company, location, bio, repo, followers, following, null, null, null)
+                    user.postValue(detailUser)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
             override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray, error: Throwable) {
-
+                Log.d("onFailure", error.message.toString())
             }
         })
     }

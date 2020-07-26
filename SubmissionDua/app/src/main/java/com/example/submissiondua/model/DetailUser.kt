@@ -10,9 +10,9 @@ data class DetailUser(
     var countRepo: Int,
     var countFollowers: Int,
     var countFollowing: Int,
-    val repository: ArrayList<Repository>,
-    var followers: ArrayList<User>,
-    var following: ArrayList<User>
+    var repository: ArrayList<Repository>?,
+    var followers: ArrayList<User>?,
+    var following: ArrayList<User>?
 )
 
 data class Repository(
