@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Pengguna Github</string>
+
+    <string name="connection_problem">Koneksi bermasalah</string>
+    <string name="found">Ditemukan</string>
+    <string name="people">orang</string>
+    <string name="search">Cari</string>
+    <string name="bahasa">Bahasa</string>
+    <string name="username">Andifauzy7</string>
+    <string name="username_capt">Username :</string>
+    <string name="followers">Pengikut</string>
+    <string name="following">Mengikuti</string>
+    <string name="count_repo">26</string>
+    <string name="count_followers">120</string>
+    <string name="count_following">64</string>
+    <string name="repository">Repositori</string>
+    <string name="capt_name">Nama</string>
+    <string name="capt_company">Instansi</string>
+    <string name="capt_location">Lokasi</string>
+    <string name="capt_bio">Bio</string>
+    <string name="name">Andi Fauzy Dewantara</string>
+    <string name="company">POLITEKNIK NEGERI BANDUNG</string>
+    <string name="location">Bandung, Jawa Barat, Indonesia</string>
+    <string name="bio">Software Engineer</string>
+</resources>

@@ -2,8 +2,10 @@ package com.example.submissiondua
 
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -61,17 +63,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.bahasa -> {
-                true
-            }
-            R.id.english -> {
-                true
-            }
-            R.id.espanol -> {
-                true
-            }
-            else -> true
+        if (item.itemId == R.id.bahasa) {
+            val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+            startActivity(mIntent)
         }
+        return super.onOptionsItemSelected(item)
     }
 }
