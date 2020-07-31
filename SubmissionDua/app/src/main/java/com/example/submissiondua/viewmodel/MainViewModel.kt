@@ -1,6 +1,7 @@
 package com.example.submissiondua.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -38,7 +39,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
             override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray, error: Throwable) {
-
+                Log.d("onFailure", error.message.toString())
             }
         })
     }

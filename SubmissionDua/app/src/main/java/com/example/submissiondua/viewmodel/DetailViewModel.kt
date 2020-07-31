@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.submissiondua.model.DetailUser
+import com.example.submissiondua.model.Repository
 import com.example.submissiondua.model.User
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
@@ -17,6 +18,7 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
     private var user = MutableLiveData<DetailUser>()
     private val followers = MutableLiveData<ArrayList<User>>()
     private val following = MutableLiveData<ArrayList<User>>()
+    private val repository = MutableLiveData<ArrayList<Repository>>()
 
     fun getUser(): LiveData<DetailUser> = user
 
@@ -24,7 +26,10 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
 
     fun getFollowing(): LiveData<ArrayList<User>> = following
 
+    fun getRepository(): LiveData<ArrayList<Repository>> = repository
+
     fun setUser(username: String){
+        setRepository(username)
         setFollowers(username)
         setFollowing(username)
         var detailUser: DetailUser
@@ -101,6 +106,33 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
                         listUser.add(user)
                     }
                     following.postValue(listUser)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray, error: Throwable) {
+                Log.d("onFailure", error.message.toString())
+            }
+        })
+    }
+
+    private fun setRepository(username: String){
+        val listRepo = ArrayList<Repository>()
+        val client = AsyncHttpClient()
+        client.addHeader("Authorization", "f7b6febb3427dcf755657ce73168abf06e44032c")
+        client.addHeader("User-Agent", "request")
+        val url = "https://api.github.com/users/${username}/repos"
+        client.get(url, object : AsyncHttpResponseHandler() {
+            override fun onSuccess(statusCode: Int, headers: Array<Header>, responseBody: ByteArray) {
+                val result = String(responseBody)
+                try {
+                    val responseObject = JSONArray(result)
+                    for (i in 0 until responseObject.length()){
+                        val resultRepo = responseObject.getJSONObject(i)
+                        val repo = Repository(resultRepo.getString("full_name"),resultRepo.getString("description"), resultRepo.getString("created_at"), resultRepo.getString("language"))
+                        listRepo.add(repo)
+                    }
+                    repository.postValue(listRepo)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

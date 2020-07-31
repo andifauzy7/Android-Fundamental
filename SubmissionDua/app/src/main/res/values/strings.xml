@@ -22,4 +22,8 @@
     <string name="company">POLITEKNIK NEGERI BANDUNG</string>
     <string name="location">Bandung, Jawa Barat, Indonesia</string>
     <string name="bio">Software Engineer</string>
+    <string name="repo_title">ADT-Type</string>
+    <string name="repo_desc">Beragam Jenis Abstract Data Type (ADT).</string>
+    <string name="repo_date">2019-05-31T03:40:30Z</string>
+    <string name="repo_lang">C++</string>
 </resources>

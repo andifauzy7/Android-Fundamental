@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.submissiondua.fragments
 
 import android.os.Bundle
@@ -5,14 +7,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.submissiondua.R
-import kotlinx.android.synthetic.main.fragment_followers.*
+import com.example.submissiondua.adapter.RepoAdapter
+import com.example.submissiondua.viewmodel.DetailViewModel
+import kotlinx.android.synthetic.main.fragment_repo.*
 
+@Suppress("DEPRECATION")
 class RepoFragment : Fragment() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var adapter: RepoAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,6 +29,21 @@ class RepoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        adapter = RepoAdapter()
+        adapter.notifyDataSetChanged()
+        list_repo.layoutManager = LinearLayoutManager(activity)
+        list_repo.adapter = adapter
+        activity?.let {
+            val detailViewModel = ViewModelProviders.of(it).get(DetailViewModel::class.java)
+            observeData(detailViewModel)
+        }
+    }
 
+    private fun observeData(detailViewModel: DetailViewModel){
+        detailViewModel.getRepository().observe(viewLifecycleOwner, Observer {user ->
+            if(user!=null){
+                adapter.setData(user)
+            }
+        })
     }
 }
