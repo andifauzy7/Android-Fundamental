@@ -16,7 +16,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getUsers(): LiveData<ArrayList<User>> = listUsers
 
-    fun setUsers(username: String){
+    fun setUsers(username: String): Boolean {
+        var status = true
         val listUser = ArrayList<User>()
         val client = AsyncHttpClient()
         client.addHeader("Authorization", "f7b6febb3427dcf755657ce73168abf06e44032c")
@@ -34,13 +35,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                         listUser.add(user)
                     }
                     listUsers.postValue(listUser)
+                    status = true
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    status = false
                 }
             }
             override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray, error: Throwable) {
                 Log.d("onFailure", error.message.toString())
+                status = false
             }
         })
+        return status
     }
 }

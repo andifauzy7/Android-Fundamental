@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
@@ -16,6 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.submissiondua.adapter.UserAdapter
 import com.example.submissiondua.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
     private lateinit var adapter: UserAdapter
@@ -23,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        progressBar.visibility = View.INVISIBLE
         adapter = UserAdapter()
         adapter.notifyDataSetChanged()
         list_user.layoutManager = LinearLayoutManager(this)
@@ -35,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.getUsers().observe(this, Observer {user ->
             if(user!=null){
                 adapter.setData(user)
+                progressBar.visibility = View.INVISIBLE
             }
         })
     }
@@ -52,7 +57,14 @@ class MainActivity : AppCompatActivity() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 Toast.makeText(this@MainActivity, query, Toast.LENGTH_SHORT).show()
-                mainViewModel.setUsers(query)
+                menu.findItem(R.id.search).collapseActionView()
+                runBlocking {
+                    progressBar.visibility = View.VISIBLE
+                    val status = async {
+                        mainViewModel.setUsers(query)
+                    }
+                    status.await()
+                }
                 return true
             }
             override fun onQueryTextChange(newText: String): Boolean {
