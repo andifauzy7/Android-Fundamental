@@ -26,7 +26,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         client.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(statusCode: Int, headers: Array<Header>, responseBody: ByteArray) {
                 val result = String(responseBody)
-                try {
+                status = try {
                     val responseObject = JSONObject(result)
                     val arrayResult = responseObject.getJSONArray("items")
                     for (i in 0 until arrayResult.length()){
@@ -35,10 +35,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                         listUser.add(user)
                     }
                     listUsers.postValue(listUser)
-                    status = true
+                    true
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    status = false
+                    false
                 }
             }
             override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray, error: Throwable) {
