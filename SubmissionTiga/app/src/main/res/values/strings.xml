@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">SubmissionTiga</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Andi Fauzy Dewantara</string>
+    <string name="nav_header_subtitle">andi.fauzy.tif18@polban.ac.id</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_favorite">Favorite</string>
+    <string name="menu_setting">Setting</string>
+    <string name="search">Search</string>
+    <string name="bahasa">Language</string>
+</resources>
