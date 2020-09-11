@@ -4,6 +4,7 @@ package com.example.submissiontiga.ui.home
 
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.submissiontiga.DetailActivity
 import com.example.submissiontiga.R
 import com.example.submissiontiga.adapter.UserAdapter
 import com.example.submissiontiga.model.User
@@ -51,6 +53,9 @@ class HomeFragment : Fragment() {
         adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback{
             override fun onItemClicked(data: User) {
                 Toast.makeText(requireContext(), data.username, Toast.LENGTH_SHORT).show()
+                val moveToDetail = Intent(requireContext(), DetailActivity::class.java)
+                moveToDetail.putExtra(DetailActivity.ID_USER, data.username)
+                requireContext().startActivity(moveToDetail)
             }
         })
     }
