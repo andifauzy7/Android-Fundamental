@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SubmissionTiga</string>
+    <string name="app_name">Pengguna Github</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Andi Fauzy Dewantara</string>
@@ -25,4 +25,5 @@
     <string name="capt_location">Location</string>
     <string name="capt_bio">Bio</string>
     <string name="unknown">-</string>
+    <string name="internet_problem">Internet Problem</string>
 </resources>
