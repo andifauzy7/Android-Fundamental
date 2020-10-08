@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.submissiontiga.model.User
 import com.example.submissiontiga.ui.detail.DetailViewModel
 import kotlinx.android.synthetic.main.activity_detail.*
 
@@ -15,6 +16,7 @@ class DetailActivity : AppCompatActivity() {
     companion object {
         const val ID_USER = "ID_USER"
     }
+    private lateinit var userData: User
     private lateinit var detailViewModel: DetailViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +49,7 @@ class DetailActivity : AppCompatActivity() {
                     .load(user.avatar)
                     .apply(RequestOptions().override(100, 100))
                     .into(img_user)
+                userData = User(user.username, user.avatar)
             }
         })
 
