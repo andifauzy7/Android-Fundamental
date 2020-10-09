@@ -54,7 +54,8 @@ class DetailActivity : AppCompatActivity() {
         })
 
         fab.setOnClickListener {
-            Toast.makeText(this, "Favorite Tapped", Toast.LENGTH_SHORT).show()
+            detailViewModel.insert(userData)
+            Toast.makeText(this, resources.getString(R.string.add_favorite), Toast.LENGTH_SHORT).show()
         }
     }
 

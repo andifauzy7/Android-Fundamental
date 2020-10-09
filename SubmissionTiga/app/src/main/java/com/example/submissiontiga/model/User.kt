@@ -1,10 +1,11 @@
 package com.example.submissiontiga.model
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Parcelize
+@Entity(tableName = "user_table")
 data class User(
-    var username: String,
-    var avatar: String
-) : Parcelable
+    @PrimaryKey @ColumnInfo(name = "username") val username: String,
+    @ColumnInfo(name = "avatar") var avatar: String
+)

@@ -5,16 +5,34 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.example.submissiontiga.db.UserRepository
+import com.example.submissiontiga.db.UserRoomDatabase
 import com.example.submissiontiga.model.DetailUser
 import com.example.submissiontiga.model.Repository
 import com.example.submissiontiga.model.User
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
 
 class DetailViewModel(application: Application) : AndroidViewModel(application) {
+    // Room Database
+    private var repositoryUser: UserRepository
+    var allUsers: LiveData<List<User>>
+    init {
+        val usersDao = UserRoomDatabase.getDatabase(application).userDao()
+        this.repositoryUser = UserRepository(usersDao)
+        this.allUsers = repositoryUser.allUsers
+    }
+
+    fun insert(user: User) = viewModelScope.launch(Dispatchers.IO) {
+        repositoryUser.insert(user)
+    }
+
     private var user = MutableLiveData<DetailUser>()
     private val followers = MutableLiveData<ArrayList<User>>()
     private val following = MutableLiveData<ArrayList<User>>()

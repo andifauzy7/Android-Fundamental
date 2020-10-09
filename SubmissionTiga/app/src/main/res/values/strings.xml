@@ -25,5 +25,6 @@
     <string name="capt_location">Location</string>
     <string name="capt_bio">Bio</string>
     <string name="unknown">-</string>
+    <string name="add_favorite">User Added to Favorite</string>
     <string name="internet_problem">Internet Problem</string>
 </resources>
