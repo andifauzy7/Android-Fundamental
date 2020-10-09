@@ -8,7 +8,7 @@ import com.example.submissiontiga.db.UserRoomDatabase
 import com.example.submissiontiga.model.User
 
 class FavoriteViewModel(application: Application) : AndroidViewModel(application) {
-    private var repositoryUser: UserRepository
+    var repositoryUser: UserRepository
     var allUsers: LiveData<List<User>>
     init {
         val usersDao = UserRoomDatabase.getDatabase(application).userDao()

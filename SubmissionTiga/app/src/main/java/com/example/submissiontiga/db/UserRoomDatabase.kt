@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.submissiontiga.model.User
 
-@Database(entities = arrayOf(User::class), version = 1, exportSchema = false)
+@Database(entities = [User::class], version = 1, exportSchema = false)
 abstract class UserRoomDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
