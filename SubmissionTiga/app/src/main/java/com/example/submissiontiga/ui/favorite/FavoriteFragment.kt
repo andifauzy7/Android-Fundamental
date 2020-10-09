@@ -6,16 +6,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.submissiontiga.R
 import com.example.submissiontiga.adapter.UserAdapter
 import com.example.submissiontiga.model.User
-import com.example.submissiontiga.ui.detail.DetailViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class FavoriteFragment : Fragment() {
@@ -39,9 +37,14 @@ class FavoriteFragment : Fragment() {
         adapter.notifyDataSetChanged()
         list_user.layoutManager = LinearLayoutManager(requireContext())
         list_user.adapter = adapter
-        val userViewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
-        userViewModel.allUsers.observe(viewLifecycleOwner, Observer {users ->
+        favoriteViewModel.allUsers.observe(viewLifecycleOwner, Observer {users ->
             adapter.setData(users as ArrayList<User>)
+        })
+
+        adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback{
+            override fun onItemClicked(data: User) {
+                Toast.makeText(requireContext(), "Favorite Touched", Toast.LENGTH_SHORT).show()
+            }
         })
     }
 }

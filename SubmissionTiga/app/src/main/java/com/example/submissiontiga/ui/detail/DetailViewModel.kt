@@ -22,11 +22,9 @@ import org.json.JSONObject
 class DetailViewModel(application: Application) : AndroidViewModel(application) {
     // Room Database
     private var repositoryUser: UserRepository
-    var allUsers: LiveData<List<User>>
     init {
         val usersDao = UserRoomDatabase.getDatabase(application).userDao()
         this.repositoryUser = UserRepository(usersDao)
-        this.allUsers = repositoryUser.allUsers
     }
 
     fun insert(user: User) = viewModelScope.launch(Dispatchers.IO) {
