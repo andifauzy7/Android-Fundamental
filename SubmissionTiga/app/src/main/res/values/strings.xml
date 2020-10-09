@@ -27,4 +27,9 @@
     <string name="unknown">-</string>
     <string name="add_favorite">User Added to Favorite</string>
     <string name="internet_problem">Internet Problem</string>
+
+
+    <string name="one_time_alarm">Daily Alarm Every 09.00 AM</string>
+    <string name="set_repeating_alarm">Set Repeating Alarm</string>
+    <string name="cancel_alarm">Cancel Alarm</string>
 </resources>
