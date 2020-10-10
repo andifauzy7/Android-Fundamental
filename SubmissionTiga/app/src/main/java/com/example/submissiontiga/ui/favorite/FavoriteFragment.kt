@@ -1,5 +1,3 @@
-@file:Suppress("DEPRECATION")
-
 package com.example.submissiontiga.ui.favorite
 
 import android.graphics.Canvas
@@ -10,57 +8,58 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.submissiontiga.R
 import com.example.submissiontiga.adapter.UserAdapter
+import com.example.submissiontiga.db.UserHelper
+import com.example.submissiontiga.helper.MappingHelper
 import com.example.submissiontiga.model.User
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 
 class FavoriteFragment : Fragment() {
     private lateinit var cloneUser: ArrayList<User>
+    private lateinit var userHelper: UserHelper
     private lateinit var adapter: UserAdapter
-    private lateinit var favoriteViewModel: FavoriteViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        favoriteViewModel =
-                ViewModelProviders.of(this).get(FavoriteViewModel::class.java)
         return inflater.inflate(R.layout.fragment_favorite, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        userHelper = UserHelper.getInstance(requireContext())
+        userHelper.open()
 
         adapter = UserAdapter()
         adapter.notifyDataSetChanged()
         list_user.layoutManager = LinearLayoutManager(requireContext())
         list_user.adapter = adapter
-        favoriteViewModel.allUsers.observe(viewLifecycleOwner, Observer {users ->
-            cloneUser = users as ArrayList<User>
-            adapter.setData(users)
-        })
 
-        deleteData()
+        loadNotesAsync()
 
         adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback{
             override fun onItemClicked(data: User) {
                 Toast.makeText(requireContext(), data.username, Toast.LENGTH_SHORT).show()
             }
         })
+
+        deleteData()
     }
 
-    private fun deleteData() {
+    private fun deleteData(){
         val callback: ItemTouchHelper.SimpleCallback = object :
             ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
@@ -115,11 +114,35 @@ class FavoriteFragment : Fragment() {
                 val position = viewHolder.adapterPosition
                 val user: User = cloneUser[position]
                 lifecycleScope.launch {
-                    favoriteViewModel.repositoryUser.delete(user)
+                    user.username?.let { userHelper.deleteById(it) }
+                    loadNotesAsync()
+                    adapter.notifyDataSetChanged()
                 }
             }
         }
         val itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(list_user)
     }
+
+    private fun loadNotesAsync() {
+        GlobalScope.launch(Dispatchers.Main) {
+            val deferredNotes = async(Dispatchers.IO) {
+                val cursor = userHelper.queryAll()
+                MappingHelper.mapCursorToArrayList(cursor)
+            }
+            val notes = deferredNotes.await()
+            if (notes.size > 0) {
+                cloneUser = notes
+                adapter.setData(notes)
+            } else {
+                adapter.setData(ArrayList())
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        userHelper.close()
+    }
+
 }

@@ -53,15 +53,10 @@ class HomeFragment : Fragment() {
 
         adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback{
             override fun onItemClicked(data: User) {
-                val connectivityManager = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-                if(connectivityManager.isDefaultNetworkActive){
-                    Toast.makeText(requireContext(), data.username, Toast.LENGTH_SHORT).show()
-                    val moveToDetail = Intent(requireContext(), DetailActivity::class.java)
-                    moveToDetail.putExtra(DetailActivity.ID_USER, data.username)
-                    requireContext().startActivity(moveToDetail)
-                } else {
-                    Toast.makeText(requireContext(), resources.getString(R.string.internet_problem), Toast.LENGTH_SHORT).show()
-                }
+                Toast.makeText(requireContext(), data.username, Toast.LENGTH_SHORT).show()
+                val moveToDetail = Intent(requireContext(), DetailActivity::class.java)
+                moveToDetail.putExtra(DetailActivity.ID_USER, data.username)
+                requireContext().startActivity(moveToDetail)
             }
         })
     }
@@ -77,19 +72,14 @@ class HomeFragment : Fragment() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                val connectivityManager = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-                if(connectivityManager.isDefaultNetworkActive){
-                    Toast.makeText(requireContext(), query, Toast.LENGTH_SHORT).show()
-                    menu.findItem(R.id.search).collapseActionView()
-                    runBlocking {
-                        progressBar.visibility = View.VISIBLE
-                        val status = async {
-                            homeViewModel.setUsers(query)
-                        }
-                        status.await()
+                Toast.makeText(requireContext(), query, Toast.LENGTH_SHORT).show()
+                menu.findItem(R.id.search).collapseActionView()
+                runBlocking {
+                    progressBar.visibility = View.VISIBLE
+                    val status = async {
+                        homeViewModel.setUsers(query)
                     }
-                } else {
-                    Toast.makeText(requireContext(), resources.getString(R.string.internet_problem), Toast.LENGTH_SHORT).show()
+                    status.await()
                 }
                 return true
             }
