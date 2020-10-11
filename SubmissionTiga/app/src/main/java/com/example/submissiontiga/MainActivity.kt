@@ -38,14 +38,6 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.bahasa) {
-            val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
-            startActivity(mIntent)
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
