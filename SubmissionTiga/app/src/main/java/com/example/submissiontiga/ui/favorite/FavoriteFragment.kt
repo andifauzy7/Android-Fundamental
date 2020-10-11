@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.submissiontiga.R
 import com.example.submissiontiga.adapter.UserAdapter
+import com.example.submissiontiga.db.DatabaseContract.UserColumns.Companion.CONTENT_URI
 import com.example.submissiontiga.db.UserHelper
 import com.example.submissiontiga.helper.MappingHelper
 import com.example.submissiontiga.model.User
@@ -127,7 +128,8 @@ class FavoriteFragment : Fragment() {
     private fun loadNotesAsync() {
         GlobalScope.launch(Dispatchers.Main) {
             val deferredNotes = async(Dispatchers.IO) {
-                val cursor = userHelper.queryAll()
+                //val cursor = userHelper.queryAll()
+                val cursor = requireActivity().contentResolver?.query(CONTENT_URI, null, null, null, null)
                 MappingHelper.mapCursorToArrayList(cursor)
             }
             val notes = deferredNotes.await()

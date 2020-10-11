@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.submissiontiga.db.DatabaseContract
+import com.example.submissiontiga.db.DatabaseContract.UserColumns.Companion.CONTENT_URI
 import com.example.submissiontiga.db.UserHelper
 import com.example.submissiontiga.model.User
 import com.example.submissiontiga.ui.detail.DetailViewModel
@@ -65,7 +66,8 @@ class DetailActivity : AppCompatActivity() {
             val values = ContentValues()
             values.put(DatabaseContract.UserColumns.USERNAME, userData.username)
             values.put(DatabaseContract.UserColumns.AVATAR, userData.avatar)
-            userHelper.insert(values)
+            //userHelper.insert(values)
+            contentResolver.insert(CONTENT_URI, values)
             Toast.makeText(this, resources.getString(R.string.add_favorite), Toast.LENGTH_SHORT).show()
         }
     }
