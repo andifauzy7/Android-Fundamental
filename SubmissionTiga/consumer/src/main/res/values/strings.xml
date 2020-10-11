@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">consumer</string>
+    <string name="username_capt">Username</string>
+    <string name="username">-</string>
+</resources>
