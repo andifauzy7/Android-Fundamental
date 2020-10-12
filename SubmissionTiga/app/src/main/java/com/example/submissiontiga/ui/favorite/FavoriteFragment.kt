@@ -1,5 +1,6 @@
 package com.example.submissiontiga.ui.favorite
 
+import android.content.Intent
 import android.graphics.Canvas
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.submissiontiga.DetailActivity
 import com.example.submissiontiga.R
 import com.example.submissiontiga.adapter.UserAdapter
 import com.example.submissiontiga.db.DatabaseContract.UserColumns.Companion.CONTENT_URI
@@ -54,6 +56,9 @@ class FavoriteFragment : Fragment() {
         adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback{
             override fun onItemClicked(data: User) {
                 Toast.makeText(requireContext(), data.username, Toast.LENGTH_SHORT).show()
+                val moveToDetail = Intent(requireContext(), DetailActivity::class.java)
+                moveToDetail.putExtra(DetailActivity.ID_USER, data.username)
+                requireContext().startActivity(moveToDetail)
             }
         })
 
